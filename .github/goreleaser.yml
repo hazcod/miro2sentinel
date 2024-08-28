@@ -22,9 +22,9 @@ release:
 dockers:
   -
     image_templates:
-    - "ghcr.io/hazcod/miro2sen/miro2sen:latest"
-    - "ghcr.io/hazcod/miro2sen/miro2sen:{{ .Tag }}"
-    - "ghcr.io/hazcod/miro2sen/miro2sen:{{ .Major }}"
+    - "ghcr.io/hazcod/miro2sentinel/miro2sen:latest"
+    - "ghcr.io/hazcod/miro2sentinel/miro2sen:{{ .Tag }}"
+    - "ghcr.io/hazcod/miro2sentinel/miro2sen:{{ .Major }}"
 
 sboms:
   -
