@@ -1,7 +1,7 @@
 # miro2sentinel
 
-A Go program that exports Tailscale network logs and events to Microsoft Sentinel SIEM.
-Two tables are used; `TailscaleAudit` for audit logs and `TailscaleNetwork` for network logs.
+A Go program that exports Miro audit logs to Microsoft Sentinel SIEM.
+Two tables are used; `MiroAuditLogs`.
 
 ## Running
 
@@ -15,44 +15,29 @@ microsoft:
   secret_key: ""
   tenant_id: ""
   subscription_id: ""
-  
-  audit_output:
-      resource_group: ""
-      workspace_name: ""
-    
-      dcr:
-        endpoint: ""
-        rule_id: ""
-        stream_name: ""
-    
-      expires_months: 6
-      update_table: false
-      
-    network_output:
-      resource_group: ""
-      workspace_name: ""
+  resource_group: ""
+  workspace_name: ""
+  retention_days: 90
 
-      dcr:
-        endpoint: ""
-        rule_id: ""
-        stream_name: ""
+  dcr:
+    endpoint: ""
+    rule_id: ""
+    stream_name: ""
 
-      expires_months: 6
-      update_table: false
+  expires_months: 6
 
-tailscale:
-  tailnet: ""
-  client_id: ""
-  client_secret: ""
-  lookback_days: 30
+miro:
+  lookback_days: 7
+  access_token: "" # non-expiring Miro access token
+
 ```
 
 And now run the program from source code:
 ```shell
 % make
 go run ./cmd/... -config=dev.yml
-INFO[0000] shipping logs                                 module=sentinel_logs table_name=TailscaleLogs total=82
-INFO[0002] shipped logs                                  module=sentinel_logs table_name=TailscaleLogs
+INFO[0000] shipping logs                                 module=sentinel_logs table_name=MiroAuditLogs total=82
+INFO[0002] shipped logs                                  module=sentinel_logs table_name=MiroAuditLogs
 INFO[0002] successfully sent logs to sentinel            total=82
 ```
 
