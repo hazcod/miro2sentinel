@@ -26,11 +26,11 @@ jobs:
       id: vars
       run: |
         goVersion=$(grep '^FROM go' .github/go/Dockerfile | cut -d ' ' -f 2 | cut -d ':' -f 2)
-        echo ::set-output name=go_version::${goVersion}
+        echo "go_version=${goVersion}" >> $GITHUB_OUTPUT
         echo "Using Go version ${goVersion}"
     -
       name: Set up Go
-      uses: actions/setup-go@v4
+      uses: actions/setup-go@v5
       with:
         go-version: ${{ steps.vars.outputs.go_version }}
     -
@@ -69,7 +69,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     -
       name: Release
-      uses: goreleaser/goreleaser-action@v5.0.0
+      uses: goreleaser/goreleaser-action@v6.0.0
       if: steps.semrel.outputs.version != ''
       with:
         version: latest
@@ -84,7 +84,7 @@ jobs:
         ARTIFACTS: "${{ steps.goreleaser.outputs.artifacts }}"
       run: |
         checksum_file=$(echo "$ARTIFACTS" | jq -r '.[] | select (.type=="Checksum") | .path')
-        echo "::set-output name=hashes::$(cat $checksum_file | base64 -w0)"
+        echo "hashes=$(cat $checksum_file | base64 -w0)" >> $GITHUB_OUTPUT
 
   provenance:
     needs: [goreleaser]
@@ -93,6 +93,6 @@ jobs:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
     with:
       base64-subjects: "${{ needs.goreleaser.outputs.hashes }}"

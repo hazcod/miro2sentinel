@@ -17,11 +17,11 @@ jobs:
         id: vars
         run: |
           goVersion=$(grep '^FROM go' .github/go/Dockerfile | cut -d ' ' -f 2 | cut -d ':' -f 2)
-          echo ::set-output name=go_version::${goVersion}
+          echo "go_version=${goVersion}" >> $GITHUB_OUTPUT
           echo "Using Go version ${goVersion}"
       -
         name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ steps.vars.outputs.go_version }}
       -
@@ -30,7 +30,7 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
       -
         name: Build
-        uses: goreleaser/goreleaser-action@v5.0.0
+        uses: goreleaser/goreleaser-action@v6.0.0
         with:
           version: latest
           args: build --config=.github/goreleaser.yml --clean --snapshot
