@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -14,6 +15,7 @@ const (
 	miroDateFormat      = "2006-01-02T15:04:05.000-0700"
 	miroQueryDateFormat = "2006-01-02T15:04:05.000Z07:00"
 	miroAuditLogAPIURL  = "https://api.miro.com/v2/audit/logs"
+	miroFetchLimit      = 100
 )
 
 type AuditLog struct {
@@ -21,6 +23,7 @@ type AuditLog struct {
 	IPAddress    string    `json:"IPAddress"`
 	Organisation string    `json:"Organisation"`
 	UserEmail    string    `json:"UserEmail"`
+	AffectedUser string    `json:"AffectedUser"`
 	Details      string    `json:"Details"`
 	Event        string    `json:"Event"`
 	Object       string    `json:"Object"`
@@ -49,6 +52,7 @@ type data struct {
 	} `json:"object"`
 	CreatedAt string `json:"createdAt"`
 	Details   struct {
+		Email         string `json:"email"`
 		Role          string `json:"role"`
 		EffectiveRole string `json:"effectiveRole"`
 		AuthType      string `json:"authType"`
@@ -99,7 +103,7 @@ func (m *Miro) GetAccessLogs(lookbackDays uint) ([]AuditLog, error) {
 		query := url.Values{}
 		query.Set("createdAfter", lookbackDate.Format(miroQueryDateFormat))
 		query.Set("createdBefore", now.Format(miroQueryDateFormat))
-		query.Set("limit", "100")
+		query.Set("limit", strconv.Itoa(miroFetchLimit))
 		if cursor != "" {
 			query.Set("cursor", cursor)
 		}
@@ -156,6 +160,7 @@ func (m *Miro) GetAccessLogs(lookbackDays uint) ([]AuditLog, error) {
 				IPAddress:    data.Context.IP,
 				Organisation: data.Context.Organization.Name,
 				UserEmail:    data.CreatedBy.Email,
+				AffectedUser: data.Details.Email,
 				Details:      string(detailsBytes),
 				Event:        data.Event,
 				Object:       data.Object.Name,
