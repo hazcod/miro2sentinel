@@ -86,6 +86,8 @@ func (m *Miro) GetAccessLogs(lookbackHours uint) ([]AuditLog, error) {
 		}
 	*/
 
+	m.logger.WithField("lookback_hours", lookbackHours).Info("calculating lookback date")
+
 	httpClient := http.Client{Timeout: time.Second * 10}
 
 	now := time.Now()
