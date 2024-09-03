@@ -11,7 +11,7 @@ import (
 
 const (
 	defaultLogLevel = "DEBUG"
-	defaultLookback = 30
+	defaultLookback = 24
 )
 
 type Config struct {
@@ -20,8 +20,8 @@ type Config struct {
 	} `yaml:"log"`
 
 	Miro struct {
-		AccessToken  string `yaml:"access_token" env:"MIRO_TOKEN" valid:"minstringlength(3)"`
-		LookbackDays uint   `yaml:"lookback_days" env:"MIRO_LOOKBACK_DAYS"`
+		AccessToken   string `yaml:"access_token" env:"MIRO_TOKEN" valid:"minstringlength(3)"`
+		LookbackHours uint   `yaml:"lookback_hours" env:"MIRO_LOOKBACK_HOURS"`
 	} `yaml:"miro"`
 
 	Microsoft struct {
@@ -49,8 +49,8 @@ func (c *Config) Validate() error {
 		c.Log.Level = defaultLogLevel
 	}
 
-	if c.Miro.LookbackDays == 0 {
-		c.Miro.LookbackDays = defaultLookback
+	if c.Miro.LookbackHours == 0 {
+		c.Miro.LookbackHours = defaultLookback
 	}
 
 	if c.Miro.AccessToken == "" {

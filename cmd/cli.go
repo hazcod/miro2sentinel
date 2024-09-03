@@ -57,7 +57,7 @@ func main() {
 	}
 
 	logger.Info("fetching Miro audit logs")
-	auditLogs, err := miroClient.GetAccessLogs(conf.Miro.LookbackDays)
+	auditLogs, err := miroClient.GetAccessLogs(conf.Miro.LookbackHours)
 	if err != nil {
 		logger.WithError(err).Fatal("failed to fetch audit logs")
 	}

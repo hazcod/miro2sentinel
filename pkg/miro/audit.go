@@ -76,7 +76,7 @@ type auditLogResponse struct {
 	Type   string `json:"type"`
 }
 
-func (m *Miro) GetAccessLogs(lookbackDays uint) ([]AuditLog, error) {
+func (m *Miro) GetAccessLogs(lookbackHours uint) ([]AuditLog, error) {
 	logs := make([]AuditLog, 0)
 
 	/*
@@ -89,7 +89,7 @@ func (m *Miro) GetAccessLogs(lookbackDays uint) ([]AuditLog, error) {
 	httpClient := http.Client{Timeout: time.Second * 10}
 
 	now := time.Now()
-	lookbackDate := now.AddDate(0, 0, -1*int(lookbackDays))
+	lookbackDate := now.Add(-1 * time.Duration(lookbackHours))
 
 	step := 0
 	cursor := ""
