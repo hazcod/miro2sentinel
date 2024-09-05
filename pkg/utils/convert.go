@@ -20,8 +20,9 @@ func ConvertMirAuditLogoToMap(_ *logrus.Logger, logs []miro.AuditLog) ([]map[str
 			"UserEmail":     log.UserEmail,
 			"Details":       log.Details,
 			"Event":         log.Event,
-			"Object":        log.Object,
+			"Board":         log.Board,
 			"AffectedUser":  log.AffectedUser,
+			"Team":          log.Team,
 		}
 	}
 

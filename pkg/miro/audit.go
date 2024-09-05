@@ -26,7 +26,8 @@ type AuditLog struct {
 	AffectedUser string    `json:"AffectedUser"`
 	Details      string    `json:"Details"`
 	Event        string    `json:"Event"`
-	Object       string    `json:"Object"`
+	Board        string    `json:"Board"`
+	Team         string    `json:"Team"`
 }
 
 // Ref https://developers.miro.com/reference/enterprise-get-audit-logs
@@ -165,7 +166,8 @@ func (m *Miro) GetAccessLogs(lookbackHours uint) ([]AuditLog, error) {
 				AffectedUser: data.Details.Email,
 				Details:      string(detailsBytes),
 				Event:        data.Event,
-				Object:       data.Object.Name,
+				Board:        data.Object.Name,
+				Team:         data.Context.Team.Name,
 			})
 		}
 
