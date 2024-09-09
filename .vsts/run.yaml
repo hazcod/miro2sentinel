@@ -38,3 +38,4 @@ stages:
       script: |
         go run ./cmd/... -config=$(config.secureFilePath)
       displayName: 'Run miro ingestor'
+      retryCountOnTaskFailure: 3
