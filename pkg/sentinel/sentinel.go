@@ -3,7 +3,7 @@ package sentinel
 import (
 	"fmt"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/hazcod/one2sen/pkg/utils"
+	"github.com/hazcod/miro2sentinel/pkg/utils"
 	"github.com/sirupsen/logrus"
 	"net/http"
 )
