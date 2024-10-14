@@ -6,7 +6,8 @@ checksum:
   name_template: 'checksums.txt'
 
 snapshot:
-  name_template: "{{ .Tag }}-next"
+  name_template: "miro2sen{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  format: zip
 
 changelog:
   sort: asc
@@ -39,8 +40,3 @@ builds:
     goos: [darwin, linux, windows]
     goarch: [amd64, arm64]
     binary: miro2sen
-
-archives:
-  -
-    name_template: "miro2sen{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-    format: zip
