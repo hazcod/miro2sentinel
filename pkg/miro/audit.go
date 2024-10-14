@@ -53,11 +53,11 @@ type data struct {
 	} `json:"object"`
 	CreatedAt string `json:"createdAt"`
 	Details   struct {
-		Email         string `json:"email"`
-		Role          string `json:"role"`
-		EffectiveRole string `json:"effectiveRole"`
-		AuthType      string `json:"authType"`
-		MfaFactorType string `json:"mfaFactorType"`
+		Email         string      `json:"email"`
+		Role          string      `json:"role"`
+		EffectiveRole interface{} `json:"effectiveRole"`
+		AuthType      string      `json:"authType"`
+		MfaFactorType string      `json:"mfaFactorType"`
 	} `json:"details,omitempty"`
 	CreatedBy struct {
 		Type  string `json:"type"`
